@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ladurée | Macarons, pastelería francesa y cajas de regalo</title>
+  <meta name="description" content="Réplica inspirada en Ladurée en español con carrito y checkout por WhatsApp para el proyecto Landify." />
+  <meta name="theme-color" content="#f7f1ea" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f1ea;
+      --bg-soft: #fcf9f5;
+      --card: #fffaf4;
+      --text: #2b211a;
+      --muted: #6d5f54;
+      --line: #e7ddd3;
+      --gold: #c9a962;
+      --gold-soft: #ead9ad;
+      --green: #1da851;
+      --navy: #2b2738;
+      --shadow: 0 18px 45px rgba(43, 33, 26, .08);
+      --shadow-strong: 0 22px 60px rgba(43, 33, 26, .14);
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(247, 241, 234, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(231, 221, 211, .8);
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.4rem;
+      align-items: center;
+      font-size: .92rem;
+    }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.1rem;
+      border-radius: 999px;
+      background: var(--text);
+      color: #fff;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 7.5rem 2rem 4rem;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at top right, rgba(201,169,98,.18), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(43,33,26,.08), transparent 30%),
+        linear-gradient(180deg, #fffdf9, var(--bg) 55%, #efe1bf 100%);
+    }
+    .hero-inner { max-width: 980px; }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .35em;
+      font-size: .76rem;
+      color: var(--gold);
+      margin-bottom: 1.1rem;
+    }
+    .hero h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      line-height: .95;
+      font-weight: 500;
+    }
+    .hero .sub {
+      margin: 1rem auto 0;
+      max-width: 680px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--muted);
+    }
+    .hero .desc {
+      margin: 1rem auto 0;
+      max-width: 620px;
+      font-size: 1.02rem;
+      color: #7b6d61;
+    }
+    .hero-actions {
+      margin-top: 2rem;
+      display: flex;
+      gap: .9rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      padding: .95rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--text);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .btn-dark { background: var(--text); color: #fff; }
+    .btn-light { background: transparent; }
+
+    .section {
+      padding: 6rem 2rem;
+    }
+    .section-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 2.5rem;
+    }
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      font-size: .75rem;
+      color: var(--gold);
+      margin-bottom: .75rem;
+    }
+    .section h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 500;
+      line-height: 1.02;
+    }
+    .section p.lead {
+      margin: .9rem auto 0;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .product-img {
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #fff 0%, #f3e7cf 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-img::before {
+      content: '';
+      position: absolute;
+      inset: 15% 18%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.7) 0%, rgba(255,255,255,.1) 55%, transparent 70%);
+      filter: blur(2px);
+    }
+    .product-img span {
+      position: relative;
+      z-index: 1;
+      font-size: 4.7rem;
+    }
+    .product-body {
+      padding: 1.25rem 1.25rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      flex: 1;
+    }
+    .product-title {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      line-height: 1.05;
+      margin: 0;
+      font-weight: 500;
+    }
+    .product-desc { margin: 0; color: var(--muted); font-size: .95rem; }
+    .product-bottom {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .price { font-weight: 700; color: var(--gold); font-size: 1.05rem; }
+    .add-btn {
+      border: 0;
+      background: var(--text);
+      color: #fff;
+      padding: .75rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .add-btn.added { background: var(--green); }
+
+    .feature-band {
+      background: linear-gradient(180deg, #f3e8d5, #efe1bf);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature {
+      text-align: center;
+      padding: 1.4rem 1rem;
+      background: rgba(255,255,255,.5);
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 18px;
+    }
+    .feature h3 {
+      margin: .55rem 0 .25rem;
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    .feature p { margin: 0; color: var(--muted); font-size: .94rem; }
+
+    .story {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 1.4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .story-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .story-card h3 {
+      margin: 0 0 .7rem;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+    }
+    .story-card p { margin: 0 0 1rem; color: var(--muted); }
+    .quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--text);
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+    }
+    .story-side {
+      display: grid;
+      gap: 1rem;
+    }
+    .mini {
+      padding: 1.2rem;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .mini strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      margin-bottom: .2rem;
+    }
+    .mini span { color: var(--muted); font-size: .94rem; }
+
+    .testimonials {
+      background: var(--navy);
+      color: #fff;
+    }
+    .testimonials .kicker, .testimonials p.lead, .testimonials h2 { color: #fff; }
+    .testimonials .kicker { color: var(--gold-soft); }
+    .testimonials-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .test-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      padding: 1.4rem;
+    }
+    .stars { color: var(--gold-soft); margin-bottom: .7rem; }
+    .test-card p { margin: 0; font-style: italic; }
+    .author { margin-top: 1rem !important; font-style: normal !important; color: var(--gold-soft); font-weight: 600; }
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(180deg, #f7f1ea, #efe1bf);
+    }
+    .cta .btn-dark { background: #25D366; border-color: #25D366; }
+
+    .footer {
+      padding: 2.5rem 2rem 4rem;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      background: var(--bg-soft);
+    }
+    .footer small { color: var(--muted); }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 1.4rem;
+      bottom: 1.4rem;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #25D366;
+      color: #fff;
+      box-shadow: 0 14px 35px rgba(37,211,102,.35);
+      z-index: 60;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 22, 17, .45);
+      opacity: 0;
+      visibility: hidden;
+      transition: .25s;
+      z-index: 70;
+    }
+    .cart-overlay.active { opacity: 1; visibility: visible; }
+    .cart-panel {
+      position: fixed;
+      top: 0; right: 0;
+      width: min(420px, 100%);
+      height: 100%;
+      background: #fffaf4;
+      z-index: 80;
+      transform: translateX(100%);
+      transition: transform .3s ease;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--line);
+    }
+    .cart-panel.active { transform: translateX(0); }
+    .cart-head {
+      padding: 1.2rem 1.25rem;
+      background: var(--text);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-close {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .cart-items { flex: 1; overflow: auto; padding: 1rem 1.25rem; }
+    .empty { color: var(--muted); text-align: center; padding: 2rem 1rem; }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cart-item strong { display: block; font-family: var(--serif); font-size: 1.25rem; }
+    .cart-item small { color: var(--muted); }
+    .remove {
+      border: 0;
+      background: transparent;
+      color: #b14f4f;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    .cart-foot {
+      padding: 1.25rem;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: .75rem;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .field {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: .9rem 1rem;
+    }
+    .field:focus { outline: 0; border-color: var(--gold); }
+    textarea.field { min-height: 90px; resize: vertical; }
+    .whatsapp-btn {
+      border: 0;
+      background: #25D366;
+      color: #fff;
+      border-radius: 999px;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .story { grid-template-columns: 1fr; }
+      .nav-links a:not(.pill) { display: none; }
+    }
+    @media (max-width: 720px) {
+      .nav { padding: .9rem 1rem; }
+      .hero { padding-inline: 1rem; }
+      .section { padding-inline: 1rem; }
+      .nav-links { gap: .75rem; }
+      .logo { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="#">Ladurée</a>
+    <div class="nav-links">
+      <a href="#iconicos">Icónicos</a>
+      <a href="#regalos">Regalos</a>
+      <a href="#maison">Maison</a>
+      <a href="#" class="pill" onclick="toggleCart(); return false;">🛒 Carrito</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">La art de gourmet delicacies since 1862</div>
+      <h1>Ladurée</h1>
+      <div class="sub">Macarons, pastelería francesa y cajas de regalo</div>
+      <p class="desc">Versión en español para Landify. Misma vibra parisina, pero con checkout por WhatsApp y una experiencia lista para vender.</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#iconicos">Ver icónicos</a>
+        <a class="btn btn-light" href="#" onclick="sendWhatsAppDirect(); return false;">💬 Pedir por WhatsApp</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section feature-band">
+    <div class="feature-grid">
+      <div class="feature">
+        <div>✦</div>
+        <h3>Desde 1862</h3>
+        <p>Elegancia francesa con tradición viva.</p>
+      </div>
+      <div class="feature">
+        <div>✦</div>
+        <h3>Regalos premium</h3>
+        <p>Cajas listas para sorprender.</p>
+      </div>
+      <div class="feature">
+        <div>✦</div>
+        <h3>Hecho a mano</h3>
+        <p>Detalle fino en cada pieza.</p>
+      </div>
+      <div class="feature">
+        <div>✦</div>
+        <h3>WhatsApp checkout</h3>
+        <p>Envío del carrito por chat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="iconicos">
+    <div class="section-head">
+      <div class="kicker">Ladurée's iconics</div>
+      <h2>Icónicos de la Maison</h2>
+      <p class="lead">Selección inspirada en la portada original de Ladurée, traducida y adaptada para vender en español.</p>
+    </div>
+    <div class="grid" id="productsGrid"></div>
+  </section>
+
+  <section class="section" id="regalos">
+    <div class="section-head">
+      <div class="kicker">Art of gifting</div>
+      <h2>Ideas de regalo</h2>
+      <p class="lead">Arma tu caja gourmet para cumpleaños, agradecimientos o celebraciones. Lo bonito se compra mejor cuando se puede enviar por WhatsApp.</p>
+    </div>
+    <div class="story">
+      <div class="story-card">
+        <h3>Personaliza tu caja</h3>
+        <p>Un cumpleaños, un gracias, una sorpresa o un capricho: la idea es la misma. Regalar algo elegante sin complicar el checkout.</p>
+        <div class="quote">"Cada creación es un reto, pero el macaron es el más serio de todos. Hay que convencer en dos bocados."</div>
+      </div>
+      <div class="story-side">
+        <div class="mini"><strong>42 macarons</strong><span>Caja grande para compartir.</span></div>
+        <div class="mini"><strong>24 macarons</strong><span>Formato clásico, fácil de regalar.</span></div>
+        <div class="mini"><strong>Eugénie y té</strong><span>El combo fino para sesiones largas.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section testimonials" id="maison">
+    <div class="section-head">
+      <div class="kicker">La maison ladurée</div>
+      <h2>El arte del lujo à la française</h2>
+      <p class="lead">Nacida en Rue Royale, París, Ladurée celebra la elegancia del gusto con macarons y pasteles que ya son parte del imaginario francés.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="test-card"><div class="stars">★★★★★</div><p>"El empaque es tan bonito como el producto. Parece una vitrina parisina."</p><p class="author">Cliente 1</p></div>
+      <div class="test-card"><div class="stars">★★★★★</div><p>"Perfecto para regalos premium. Queda fino y el carrito por WhatsApp es directo."</p><p class="author">Cliente 2</p></div>
+      <div class="test-card"><div class="stars">★★★★★</div><p>"La estética es idéntica a Ladurée, pero en español y más útil para vender."</p><p class="author">Cliente 3</p></div>
+    </div>
+  </section>
+
+  <section class="section cta">
+    <div class="section-head">
+      <div class="kicker">Since 1862, Maison Ladurée</div>
+      <h2>Haz tu pedido ahora</h2>
+      <p class="lead">Añade productos al carrito y envíalos por WhatsApp con tu nota y dirección.</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#" onclick="sendWhatsAppDirect(); return false;">📱 Ordenar por WhatsApp</a>
+        <a class="btn btn-light" href="#iconicos">Seguir viendo</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="logo" style="font-size:1.2rem; margin-bottom:.5rem;">Ladurée</div>
+    <small>Replica en español para Landify · Checkout por WhatsApp · 2026</small>
+  </footer>
+
+  <a class="whatsapp-float" href="#" onclick="sendWhatsAppDirect(); return false;" aria-label="WhatsApp">💬</a>
+
+  <div class="cart-overlay" onclick="toggleCart()"></div>
+  <aside class="cart-panel" id="cartPanel">
+    <div class="cart-head">
+      <strong>🛒 Tu carrito</strong>
+      <button class="cart-close" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items" id="cartItems"><div class="empty">Tu carrito está vacío</div></div>
+    <div class="cart-foot" id="cartFooter" style="display:none;">
+      <div class="total-row"><span>Total</span><span id="cartTotal">$0.00</span></div>
+      <input class="field" id="cartName" type="text" placeholder="Nombre" />
+      <input class="field" id="cartAddress" type="text" placeholder="Dirección / sector" />
+      <textarea class="field" id="cartNote" placeholder="Nota especial (opcional)"></textarea>
+      <button class="whatsapp-btn" onclick="sendWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </aside>
+
+  <script>
+    const WHATSAPP = '593998091812';
+    const products = [
+      { id: 'arabesque', name: '"Arabesque" 42 macarons', desc: 'Caja azul con selección clásica y elegante.', price: 122, emoji: '💠' },
+      { id: 'aquarelle', name: '"Aquarelle" 24 macarons', desc: 'Caja suave con look pastel y refinado.', price: 74, emoji: '🎨' },
+      { id: 'douces', name: '"Douces Fleurs" 18 macarons', desc: 'Edición floral para primavera y detalle fino.', price: 57, emoji: '🌸' },
+      { id: 'pinkheart', name: '"Pink Heart" 15 macarons', desc: 'Caja rosada para regalo romántico.', price: 55, emoji: '💝' },
+      { id: 'tea', name: 'Assortment tea time', desc: 'Selección Ladurée para la hora del té.', price: 86, emoji: '🫖' },
+      { id: 'eugenie', name: 'Caja de 18 Eugénie', desc: 'Selección icónica de la Maison.', price: 57, emoji: '✨' },
+      { id: 'langues', name: 'Langues de Chat', desc: 'Chocolate negro y leche.', price: 22, emoji: '🍪' },
+      { id: 'royale', name: '"16 Royale" chocolate', desc: 'Caja clásica de chocolate francés.', price: 24, emoji: '🍫' }
+    ];
+
+    let cart = [];
+
+    const money = n => `${n.toFixed(2)} EUR`;
+
+    function renderProducts() {
+      document.getElementById('productsGrid').innerHTML = products.map(p => `
+        <article class="product">
+          <div class="product-img"><span>${p.emoji}</span></div>
+          <div class="product-body">
+            <h3 class="product-title">${p.name}</h3>
+            <p class="product-desc">${p.desc}</p>
+            <div class="product-bottom">
+              <div class="price">${money(p.price)}</div>
+              <button class="add-btn ${getQty(p.id) ? 'added' : ''}" id="btn-${p.id}" onclick="addToCart('${p.id}')">
+                ${getQty(p.id) ? `✓ (${getQty(p.id)})` : 'Añadir'}
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function getQty(id) {
+      const item = cart.find(i => i.id === id);
+      return item ? item.qty : 0;
+    }
+
+    function getProduct(id) {
+      return products.find(p => p.id === id);
+    }
+
+    function addToCart(id) {
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty += 1;
+      else {
+        const p = getProduct(id);
+        cart.push({ id: p.id, name: p.name, price: p.price, qty: 1 });
+      }
+      renderProducts();
+      updateCart();
+      const btn = document.getElementById(`btn-${id}`);
+      if (btn) {
+        btn.classList.add('added');
+        setTimeout(() => btn.classList.remove('added'), 900);
+      }
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      renderProducts();
+      updateCart();
+    }
+
+    function updateCart() {
+      const items = document.getElementById('cartItems');
+      const footer = document.getElementById('cartFooter');
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      if (!cart.length) {
+        items.innerHTML = '<div class="empty">Tu carrito está vacío</div>';
+        footer.style.display = 'none';
+        return;
+      }
+      items.innerHTML = cart.map(i => `
+        <div class="cart-item">
+          <div>
+            <strong>${i.name}</strong>
+            <small>${money(i.price)} × ${i.qty}</small>
+          </div>
+          <button class="remove" onclick="removeFromCart('${i.id}')">×</button>
+        </div>
+      `).join('');
+      footer.style.display = 'grid';
+      document.getElementById('cartTotal').textContent = money(total);
+    }
+
+    function toggleCart() {
+      document.getElementById('cartPanel').classList.toggle('active');
+      document.querySelector('.cart-overlay').classList.toggle('active');
+    }
+
+    function buildMessage() {
+      const name = document.getElementById('cartName').value.trim();
+      const address = document.getElementById('cartAddress').value.trim();
+      const note = document.getElementById('cartNote').value.trim();
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      let msg = `Hola, quiero hacer un pedido de Ladurée.%0A%0A`;
+      if (name) msg += `Nombre: ${name}%0A`;
+      cart.forEach(i => { msg += `- ${i.name} x${i.qty} (${money(i.price * i.qty)})%0A`; });
+      msg += `%0ATotal: ${money(total)}%0A`;
+      if (address) msg += `Dirección: ${address}%0A`;
+      if (note) msg += `Nota: ${note}%0A`;
+      return msg;
+    }
+
+    function sendWhatsApp() {
+      if (!cart.length) return;
+      window.open(`https://wa.me/${WHATSAPP}?text=${buildMessage()}`, '_blank');
+    }
+
+    function sendWhatsAppDirect() {
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, quiero ver el catálogo y hacer un pedido de Ladurée.')}`, '_blank');
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
