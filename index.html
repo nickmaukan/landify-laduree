@@ -80,13 +80,19 @@
       padding: 7.5rem 2rem 4rem;
       display: grid;
       place-items: center;
-      text-align: center;
       background:
         radial-gradient(circle at top right, rgba(201,169,98,.18), transparent 28%),
         radial-gradient(circle at bottom left, rgba(43,33,26,.08), transparent 30%),
         linear-gradient(180deg, #fffdf9, var(--bg) 55%, #efe1bf 100%);
     }
-    .hero-inner { max-width: 980px; }
+    .hero-inner {
+      max-width: 1240px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 2rem;
+      align-items: center;
+    }
     .eyebrow {
       text-transform: uppercase;
       letter-spacing: .35em;
@@ -102,15 +108,14 @@
       font-weight: 500;
     }
     .hero .sub {
-      margin: 1rem auto 0;
-      max-width: 680px;
+      margin: 1rem 0 0;
       font-family: var(--serif);
       font-style: italic;
       font-size: clamp(1.3rem, 3vw, 2rem);
       color: var(--muted);
     }
     .hero .desc {
-      margin: 1rem auto 0;
+      margin: 1rem 0 0;
       max-width: 620px;
       font-size: 1.02rem;
       color: #7b6d61;
@@ -119,8 +124,82 @@
       margin-top: 2rem;
       display: flex;
       gap: .9rem;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
+    }
+    .hero-badges {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-top: 1.4rem;
+    }
+    .badge {
+      padding: .55rem .85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(43,33,26,.12);
+      background: rgba(255,255,255,.55);
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .hero-visual {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #fff 0%, #f3e7cf 100%);
+      box-shadow: var(--shadow-strong);
+      border: 1px solid rgba(231,221,211,.85);
+      min-height: 620px;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(43,33,26,.04) 55%, rgba(43,33,26,.16) 100%);
+      pointer-events: none;
+    }
+    .hero-card {
+      position: absolute;
+      left: 1.25rem;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 2;
+      border-radius: 22px;
+      padding: 1rem 1.1rem;
+      background: rgba(255,250,244,.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(231,221,211,.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+    .hero-card strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 500;
+    }
+    .hero-card span {
+      display: block;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .hero-card em {
+      font-style: normal;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 420px; order: -1; }
+      .hero-actions { justify-content: center; }
     }
     .btn {
       display: inline-flex;
@@ -480,13 +559,30 @@
 
   <header class="hero">
     <div class="hero-inner">
-      <div class="eyebrow">La art de gourmet delicacies since 1862</div>
-      <h1>Ladurée</h1>
-      <div class="sub">Macarons, pastelería francesa y cajas de regalo</div>
-      <p class="desc">Versión en español para Landify. Misma vibra parisina, pero con checkout por WhatsApp y una experiencia lista para vender.</p>
-      <div class="hero-actions">
-        <a class="btn btn-dark" href="#iconicos">Ver icónicos</a>
-        <a class="btn btn-light" href="#" onclick="sendWhatsAppDirect(); return false;">💬 Pedir por WhatsApp</a>
+      <div>
+        <div class="eyebrow">The art of gourmet delicacies since 1862</div>
+        <h1>Ladurée</h1>
+        <div class="sub">Macarons, pastelería francesa y cajas de regalo</div>
+        <p class="desc">Versión en español para Landify, construida con estructura fiel, assets de reemplazo y checkout por WhatsApp.</p>
+        <div class="hero-actions">
+          <a class="btn btn-dark" href="#iconicos">Shop Now</a>
+          <a class="btn btn-light" href="#" onclick="sendWhatsAppDirect(); return false;">💬 Ordenar</a>
+        </div>
+        <div class="hero-badges">
+          <span class="badge">Iconics</span>
+          <span class="badge">Gift boxes</span>
+          <span class="badge">Maison Ladurée</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/hero.png" alt="Ladurée style hero" />
+        <div class="hero-card">
+          <div>
+            <strong>Delicate gift box</strong>
+            <span>Contenido libre / reemplazo visual</span>
+          </div>
+          <em>Since 1862</em>
+        </div>
       </div>
     </div>
   </header>
